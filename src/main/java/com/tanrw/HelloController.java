@@ -14,6 +14,7 @@ public class HelloController {
     @Autowired
     private GirlProperties girlProperties;
 
+    //添加一下
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String say() {
         return "index";
