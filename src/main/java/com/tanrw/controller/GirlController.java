@@ -3,15 +3,20 @@ package com.tanrw.controller;
 import com.tanrw.eneity.Girl;
 import com.tanrw.respository.GirlRespository;
 import com.tanrw.service.GirlService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
  * Created by Administrator.
  *
- * @create 2017-06-06 下午 3:03
+ * 创建时间： 2017-06-06 下午 3:03
  */
 @RestController
 public class GirlController {
@@ -26,10 +31,11 @@ public class GirlController {
         return girlRespository.findAll();
     }
     @PostMapping("/girlAdd")
-    public String girlAdd(@RequestParam("cupSize") String cupSize,@RequestParam("age") Integer age){
-        Girl girl = new Girl();
-        girl.setCupSize(cupSize);
-        girl.setAge(age);
+    public String girlAdd(@Valid Girl girl, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+            return null;
+        }
         Girl save = girlRespository.save(girl);
         return save.toString();
     }
