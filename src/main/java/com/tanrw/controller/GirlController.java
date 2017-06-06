@@ -56,16 +56,13 @@ public class GirlController {
     public Girl girlUpdate(@PathVariable("id") Integer id){
         Girl girl = girlRespository.findOne(id);
         girl.setCupSize("A");
-
-        Girl save = girlRespository.save(girl);
-        return save;
+        return girlRespository.save(girl);
     }
 
     @GetMapping("/girlfindByAge/{age}")
     //通过年龄查询
     public List<Girl> findByAge(@PathVariable("age") Integer age){
-        List<Girl> list = girlRespository.findByAge(age);
-        return list;
+        return girlRespository.findByAge(age);
     }
 
     @GetMapping("/insertTwo")
