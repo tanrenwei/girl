@@ -1,6 +1,7 @@
 package com.tanrw.controller;
 
 import com.tanrw.eneity.Girl;
+import com.tanrw.eneity.Result;
 import com.tanrw.respository.GirlRespository;
 import com.tanrw.service.GirlService;
 import org.springframework.validation.BindingResult;
@@ -31,13 +32,21 @@ public class GirlController {
         return girlRespository.findAll();
     }
     @PostMapping("/girlAdd")
-    public String girlAdd(@Valid Girl girl, BindingResult bindingResult){
+    public Result<Girl> girlAdd(@Valid Girl girl, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
-            System.out.println(bindingResult.getFieldError().getDefaultMessage());
-            return null;
+            Result result = new Result();
+            result.setCode(1);
+            result.setMsg(bindingResult.getFieldError().getDefaultMessage());
+            result.setData(null);
+            return result;
         }
+
         Girl save = girlRespository.save(girl);
-        return save.toString();
+        Result result = new Result();
+        result.setCode(0);
+        result.setMsg("成功");
+        result.setData(save);
+        return result;
     }
 
     @GetMapping("/girlQuery/{id}")
